@@ -6,7 +6,7 @@ namespace Dama_Console.Entities
 {
     class Tabuleiro
     {
-        public char[,] Casa { get; set; }
+        public Peca[,] Casa { get; set; }
         public int Linhas { get; set; }
         public int Colunas { get; set; }
 
@@ -20,17 +20,35 @@ namespace Dama_Console.Entities
             Casa = CriarTabuleiro();
         }
 
-        public char[,] CriarTabuleiro()
+        public Peca[,] CriarTabuleiro()
         {
-            char[,] mat = new char[Linhas, Colunas];
+            Peca[,] mat = new Peca[Linhas, Colunas];
             for (int i = 0; i < Linhas; i++)
             {
                 for (int j = 0; j < Colunas; j++)
                 {
-                    mat[i, j] = '-';
+                    //Inserindo peças brancas
+                    if ((i == 0 || i==2) && j%2 ==0)
+                        mat[i, j] = new Peca(Enums.Cor.Branca);
+                    else if (i == 1 && j % 2 != 0)
+                        mat[i, j] = new Peca(Enums.Cor.Branca);
+
+                    //Inserindo peças pretas
+                    if ((i == Linhas-1 || i == Linhas-3) && j % 2 != 0)
+                        mat[i, j] = new Peca(Enums.Cor.Preta);
+                    else if (i == Linhas-2 && j % 2 == 0)
+                        mat[i, j] = new Peca(Enums.Cor.Preta);
                 }
             }
             return mat;
+        }
+
+        public void InserirPeca(int linha, int coluna)
+        {
+            Peca p = new Peca();
+            Casa[linha, coluna] = p;
+            Console.Clear();
+            ImprimirTabuleiro();
         }
 
         public void ImprimirTabuleiro()
@@ -40,14 +58,32 @@ namespace Dama_Console.Entities
                 Console.Write(i + " ");
                 for (int j = 0; j < Colunas; j++)
                 {
-                    Console.Write(Casa[i, j] + " "); ;
+                    if(Casa[i,j] != null)
+                    {
+                        //Imprimindo peças pretas
+                        if (Casa[i,j].Cor == Enums.Cor.Preta)
+                        {
+                            ConsoleColor aux = Console.ForegroundColor;
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.Write(Casa[i, j] + " ");
+                            Console.ForegroundColor = aux;
+                        }
+                        //Imprimindo peças brancas
+                        else
+                            Console.Write(Casa[i, j] + " ");
+                    }
+                         
+                    else
+                        Console.Write("- ");
+
                 }
                 Console.WriteLine();
             }
             Console.Write("  ");
             for (int i = 0; i < Linhas; i++)
                 Console.Write(i + " ");
-
         }
+
+        
     }
 }

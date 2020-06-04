@@ -10,6 +10,7 @@ namespace Dama_Console
             Tabuleiro tab = new Tabuleiro(10,10);
 
             tab.ImprimirTabuleiro();
+            
         }
     }
 }
