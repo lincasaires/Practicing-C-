@@ -29,27 +29,20 @@ namespace Dama_Console.Entities
                 {
                     //Inserindo peças brancas
                     if ((i == 0 || i==2) && j%2 ==0)
-                        mat[i, j] = new Peca(Enums.Cor.Branca);
+                        mat[i, j] = new Peao(i,j,Enums.Cor.Branca);
                     else if (i == 1 && j % 2 != 0)
-                        mat[i, j] = new Peca(Enums.Cor.Branca);
+                        mat[i, j] = new Peao(i,j,Enums.Cor.Branca);
 
                     //Inserindo peças pretas
                     if ((i == Linhas-1 || i == Linhas-3) && j % 2 != 0)
-                        mat[i, j] = new Peca(Enums.Cor.Preta);
+                        mat[i, j] = new Peao(i,j,Enums.Cor.Preta);
                     else if (i == Linhas-2 && j % 2 == 0)
-                        mat[i, j] = new Peca(Enums.Cor.Preta);
+                        mat[i, j] = new Peao(i,j,Enums.Cor.Preta);
                 }
             }
             return mat;
         }
 
-        public void InserirPeca(int linha, int coluna)
-        {
-            Peca p = new Peca();
-            Casa[linha, coluna] = p;
-            Console.Clear();
-            ImprimirTabuleiro();
-        }
 
         public void ImprimirTabuleiro()
         {           
@@ -71,8 +64,7 @@ namespace Dama_Console.Entities
                         //Imprimindo peças brancas
                         else
                             Console.Write(Casa[i, j] + " ");
-                    }
-                         
+                    }                        
                     else
                         Console.Write("- ");
 
@@ -82,6 +74,7 @@ namespace Dama_Console.Entities
             Console.Write("  ");
             for (int i = 0; i < Linhas; i++)
                 Console.Write(i + " ");
+            Console.WriteLine();
         }
 
         

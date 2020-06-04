@@ -1,5 +1,6 @@
 ﻿using Dama_Console.Entities;
 using System;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Dama_Console
 {
@@ -7,10 +8,30 @@ namespace Dama_Console
     {
         static void Main(string[] args)
         {
-            Tabuleiro tab = new Tabuleiro(10,10);
-
-            tab.ImprimirTabuleiro();
+           
+            Partida partida = new Partida();
             
+
+            while (!partida.Terminada)
+            {
+                try
+                {
+                    partida.Menu();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+               
+            }
+
+
+
+            
+
+
+
+
         }
     }
 }

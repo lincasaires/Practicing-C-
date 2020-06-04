@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Dama_Console.Entities
 {
-    class Peca
+    abstract class Peca
     {
         public Cor Cor { get; set; }
         public int Linha { get; set; }
@@ -19,16 +19,14 @@ namespace Dama_Console.Entities
         {
             Cor = cor;
         }
-        public Peca(int linha, int coluna)
+        public Peca(int linha, int coluna, Cor cor)
         {
             Linha = linha;
             Coluna = coluna;
+            Cor = cor;
         }
 
-        public override string ToString()
-        {
-            return "P";
-        }
+        public abstract void MoverPeca(int linha,int coluna);
 
 
     }
