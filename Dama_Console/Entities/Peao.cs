@@ -9,17 +9,10 @@ namespace Dama_Console.Entities
     {
 
         public Peao(int linha, int coluna, Cor cor) : base(linha,coluna,cor) { }
+        public Peao() { }
 
 
-        public override void MoverPeca(int linha, int coluna)
-        {
-            if (Tab.Casa[linha,coluna] != null)
-            {
-                Console.Write("Destino: ");
-                string destino = Console.ReadLine();
-
-            }
-        }
+        
 
         public override string ToString()
         {

@@ -12,7 +12,7 @@ namespace Dama_Console
         public int CemiterioBrancas { get; private set; }
         public int CemiterioPretas { get; private set; }
         public Tabuleiro Tab { get; private set; }
-        public bool Terminada { get; private set; }
+        public bool Terminada { get;  set; }
 
         public Partida()
         {
@@ -32,9 +32,9 @@ namespace Dama_Console
             Console.WriteLine("Turno: " + Turno);
             Console.Write("Jogador: ");
             if (Turno %2 == 0)
-                Console.Write("Preto");
+                Console.WriteLine("Preto");
             else
-                Console.Write("Branco");
+                Console.WriteLine("Branco");
             Console.WriteLine();
             Console.Write("Origem: ");
             string s = Console.ReadLine();
@@ -47,23 +47,12 @@ namespace Dama_Console
             MoverPeca(linhaOrigem, colunaOrigem);
         }
 
-        public void ValidarOrigem(Peca origem)
-        {
-            if (origem == null)
-            {
-                Console.Clear();
-                throw new PartidaException("Não há peças neste ponto!");
-            }
-            if ((origem.Cor == Entities.Enums.Cor.Branca && Turno % 2 == 0) || (origem.Cor == Entities.Enums.Cor.Preta && Turno % 2 != 0))
-            {
-                Console.Clear();
-                throw new PartidaException("Peça incorreta!");
-            }
-        }
+       
         public void MoverPeca(int linha, int coluna)
         {
             if (Tab.Casa[linha, coluna] != null)
             {
+                
                 Peca origem = Tab.Casa[linha, coluna];
                 
                 Console.Write("Destino: ");
@@ -89,9 +78,24 @@ namespace Dama_Console
             }
         }
 
+        public void ValidarOrigem(Peca origem)
+        {
+            if (origem == null)
+            {
+                Console.Clear();
+                throw new PartidaException("Não há peças neste ponto!");
+            }
+            if ((origem.Cor == Entities.Enums.Cor.Branca && Turno % 2 == 0) || (origem.Cor == Entities.Enums.Cor.Preta && Turno % 2 != 0))
+            {
+                Console.Clear();
+                throw new PartidaException("Peça incorreta!");
+            }
+        }
+
         public bool ValidarDestino(int linhaDestino, int colunaDestino, Peca origem)
         {
             Peca destino = Tab.Casa[linhaDestino, colunaDestino];
+            PreencherCemiterio(origem, destino);
 
             //Trecho comum para validação de qualquer tipo de peça
             if (linhaDestino % 2 != origem.Linha % 2 && colunaDestino % 2 != origem.Coluna % 2 && (destino == null || destino.Cor != origem.Cor))
@@ -114,7 +118,27 @@ namespace Dama_Console
                         }
                     }
                 }
+
+
+
+
+            
             return false;
+        }
+
+        public void PreencherCemiterio(Peca origem, Peca destino)
+        {
+            //Preenchendo cemiterio de peças
+            if (destino != null && destino.Cor != origem.Cor)
+            {
+                if (origem.Cor == Entities.Enums.Cor.Branca)
+                {
+                    CemiterioPretas++;
+                }
+                else
+                    CemiterioBrancas++;
+            }
+
         }
 
     }
