@@ -1,4 +1,5 @@
 ﻿using Dama_Console.Entities;
+using Dama_Console.Entities.Enums;
 using Dama_Console.Entities.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -71,6 +72,8 @@ namespace Dama_Console
                     origem.Linha = linhaDestino;
                     origem.Coluna = colunaDestino;
                     Tab.Casa[linhaDestino, colunaDestino] = origem;
+                    
+
                     Console.Clear();
                     
                     Turno++;
@@ -134,16 +137,20 @@ namespace Dama_Console
                 if (origem.Cor == Entities.Enums.Cor.Branca && origem.Linha+1 < Tab.Linhas)
                 {
                     if(origem.Coluna + 1 < Tab.Colunas)
-                        Tab.MovimentoPossivel[origem.Linha + 1, origem.Coluna + 1] = true;
+                        if(ValidarDestino(origem.Linha + 1, origem.Coluna + 1,origem))
+                            Tab.MovimentoPossivel[origem.Linha + 1, origem.Coluna + 1] = true;
                     if(origem.Coluna - 1 >= 0)
-                        Tab.MovimentoPossivel[origem.Linha + 1, origem.Coluna - 1] = true;
+                        if(ValidarDestino(origem.Linha + 1, origem.Coluna - 1,origem))
+                            Tab.MovimentoPossivel[origem.Linha + 1, origem.Coluna - 1] = true;
                 }
                 else if (origem.Cor == Entities.Enums.Cor.Preta && origem.Linha - 1 >= 0)
                 {
                     if (origem.Coluna + 1 < Tab.Colunas)
-                        Tab.MovimentoPossivel[origem.Linha - 1, origem.Coluna + 1] = true;
+                        if(ValidarDestino(origem.Linha - 1, origem.Coluna + 1,origem))
+                            Tab.MovimentoPossivel[origem.Linha - 1, origem.Coluna + 1] = true;
                     if (origem.Coluna - 1 >= 0)
-                        Tab.MovimentoPossivel[origem.Linha - 1, origem.Coluna - 1] = true;
+                        if (ValidarDestino(origem.Linha - 1, origem.Coluna - 1,origem))
+                            Tab.MovimentoPossivel[origem.Linha - 1, origem.Coluna - 1] = true;
                 }
 
 
@@ -152,13 +159,20 @@ namespace Dama_Console
             InfoMenu();
         }
 
+       
+
+        public void AdicionarDama(Peca destino,Cor cor)
+        {
+            Tab.Casa[destino.Linha, destino.Coluna] = new Dama(destino.Linha, destino.Coluna, cor);
+        }
         public void PreencherCemiterio(Peca origem, Peca destino)
         {
-            //Preenchendo cemiterio de peças
+            //Preenchendo cemiterio de peças para conseguir implementar a situação de vitoria
             if (destino != null && destino.Cor != origem.Cor)
             {
                 if (origem.Cor == Entities.Enums.Cor.Branca)
                 {
+                    if (destino.Linha == Tab.Linhas-1)
                     CemiterioPretas++;
                 }
                 else
