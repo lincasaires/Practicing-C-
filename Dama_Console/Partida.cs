@@ -29,13 +29,7 @@ namespace Dama_Console
             Console.WriteLine();
             Tab.ImprimirTabuleiro();
 
-            Console.WriteLine("Turno: " + Turno);
-            Console.Write("Jogador: ");
-            if (Turno %2 == 0)
-                Console.WriteLine("Preto");
-            else
-                Console.WriteLine("Branco");
-            Console.WriteLine();
+            InfoMenu();
             Console.Write("Origem: ");
             string s = Console.ReadLine();
             int linhaOrigem = int.Parse(s[0] + "");
@@ -43,8 +37,20 @@ namespace Dama_Console
 
             Peca origem = Tab.Casa[linhaOrigem, colunaOrigem];
             ValidarOrigem(origem);
+            MovimentosPossiveis(origem);
 
             MoverPeca(linhaOrigem, colunaOrigem);
+        }
+
+        public void InfoMenu()
+        {
+            Console.WriteLine("Turno: " + Turno);
+            Console.Write("Jogador: ");
+            if (Turno % 2 == 0)
+                Console.WriteLine("Preto");
+            else
+                Console.WriteLine("Branco");
+            Console.WriteLine();
         }
 
        
@@ -117,13 +123,33 @@ namespace Dama_Console
                                 return true;
                         }
                     }
+                }           
+            return false;
+        }
+
+        public void MovimentosPossiveis(Peca origem)
+        {
+            
+            if (origem is Peao)
+                if (origem.Cor == Entities.Enums.Cor.Branca && origem.Linha+1 < Tab.Linhas)
+                {
+                    if(origem.Coluna + 1 < Tab.Colunas)
+                        Tab.MovimentoPossivel[origem.Linha + 1, origem.Coluna + 1] = true;
+                    if(origem.Coluna - 1 >= 0)
+                        Tab.MovimentoPossivel[origem.Linha + 1, origem.Coluna - 1] = true;
+                }
+                else if (origem.Cor == Entities.Enums.Cor.Preta && origem.Linha - 1 >= 0)
+                {
+                    if (origem.Coluna + 1 < Tab.Colunas)
+                        Tab.MovimentoPossivel[origem.Linha - 1, origem.Coluna + 1] = true;
+                    if (origem.Coluna - 1 >= 0)
+                        Tab.MovimentoPossivel[origem.Linha - 1, origem.Coluna - 1] = true;
                 }
 
 
-
-
-            
-            return false;
+            Console.Clear();
+            Tab.ImprimirTabuleiro();
+            InfoMenu();
         }
 
         public void PreencherCemiterio(Peca origem, Peca destino)

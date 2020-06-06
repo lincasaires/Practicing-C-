@@ -9,6 +9,7 @@ namespace Dama_Console.Entities
         public Peca[,] Casa { get; set; }
         public int Linhas { get; set; }
         public int Colunas { get; set; }
+        public bool[,] MovimentoPossivel { get; set; }
 
         public Tabuleiro() { }
 
@@ -16,6 +17,7 @@ namespace Dama_Console.Entities
         {
             Linhas = linhas;
             Colunas = colunas;
+            MovimentoPossivel = new bool[Linhas, Colunas];
 
             Casa = CriarTabuleiro();
         }
@@ -65,6 +67,14 @@ namespace Dama_Console.Entities
                         else
                             Console.Write(Casa[i, j] + " ");
                     }                        
+                    else if(MovimentoPossivel[i,j] == true)
+                    {
+                        ConsoleColor aux = Console.BackgroundColor;
+                        Console.BackgroundColor = ConsoleColor.White;
+                        Console.Write("- ");
+                        Console.BackgroundColor = aux;
+                        MovimentoPossivel[i, j] = false;
+                    }
                     else
                         Console.Write("- ");
 
