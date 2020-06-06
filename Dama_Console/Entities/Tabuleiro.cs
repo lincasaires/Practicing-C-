@@ -88,12 +88,9 @@ namespace Dama_Console.Entities
                                 Console.Write(Casa[i, j] + " ");
                                 Console.BackgroundColor = aux;                               
                             }
-
                         }
-
-
-                        //Pintando de branco as casas com movimento possivel
                     }
+                    //Pintando de branco as casas vazias com movimento possivel
                     else if (MovimentoPossivel[i, j] == true)
                     {
                         ConsoleColor aux = Console.BackgroundColor;
@@ -115,7 +112,7 @@ namespace Dama_Console.Entities
             LimparMovimentosPossiveis();
 
             Console.Write("  ");
-            for (int i = 0; i < Linhas; i++)
+            for (int i = 0; i < Colunas; i++)
                 Console.Write(i + " ");
             Console.WriteLine();
         }

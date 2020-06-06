@@ -17,8 +17,8 @@ namespace Dama_Console
 
         public Partida()
         {
-            Turno = 0;
-            Tab = new Tabuleiro(10, 10);
+            Turno = 1;
+            Tab = new Tabuleiro(6, 10);
             CemiterioBrancas = 0;
             CemiterioPretas = 0;
             Terminada = false;
@@ -72,11 +72,12 @@ namespace Dama_Console
                     origem.Linha = linhaDestino;
                     origem.Coluna = colunaDestino;
                     Tab.Casa[linhaDestino, colunaDestino] = origem;
+                    VerificarDama();
                     
 
                     Console.Clear();
                     
-                    Turno++;
+                   // Turno++;
                 }
                 else
                 {
@@ -126,44 +127,84 @@ namespace Dama_Console
                                 return true;
                         }
                     }
+                    else if(origem is Dama)
+                    {
+                        if (origem.Cor == Entities.Enums.Cor.Preta && Turno % 2 == 0)
+                            return true;
+                        else if (origem.Cor == Entities.Enums.Cor.Branca && Turno % 2 == 1)
+                            return true;
+                    }
                 }           
             return false;
         }
 
         public void MovimentosPossiveis(Peca origem)
         {
-            
+
             if (origem is Peao)
-                if (origem.Cor == Entities.Enums.Cor.Branca && origem.Linha+1 < Tab.Linhas)
+            {
+                if (origem.Cor == Entities.Enums.Cor.Branca && origem.Linha + 1 < Tab.Linhas)
                 {
-                    if(origem.Coluna + 1 < Tab.Colunas)
-                        if(ValidarDestino(origem.Linha + 1, origem.Coluna + 1,origem))
+                    if (origem.Coluna + 1 < Tab.Colunas)
+                        if (ValidarDestino(origem.Linha + 1, origem.Coluna + 1, origem))
                             Tab.MovimentoPossivel[origem.Linha + 1, origem.Coluna + 1] = true;
-                    if(origem.Coluna - 1 >= 0)
-                        if(ValidarDestino(origem.Linha + 1, origem.Coluna - 1,origem))
+                    if (origem.Coluna - 1 >= 0)
+                        if (ValidarDestino(origem.Linha + 1, origem.Coluna - 1, origem))
                             Tab.MovimentoPossivel[origem.Linha + 1, origem.Coluna - 1] = true;
                 }
                 else if (origem.Cor == Entities.Enums.Cor.Preta && origem.Linha - 1 >= 0)
                 {
                     if (origem.Coluna + 1 < Tab.Colunas)
-                        if(ValidarDestino(origem.Linha - 1, origem.Coluna + 1,origem))
+                        if (ValidarDestino(origem.Linha - 1, origem.Coluna + 1, origem))
                             Tab.MovimentoPossivel[origem.Linha - 1, origem.Coluna + 1] = true;
                     if (origem.Coluna - 1 >= 0)
-                        if (ValidarDestino(origem.Linha - 1, origem.Coluna - 1,origem))
+                        if (ValidarDestino(origem.Linha - 1, origem.Coluna - 1, origem))
                             Tab.MovimentoPossivel[origem.Linha - 1, origem.Coluna - 1] = true;
                 }
-
+            }
+            else if (origem is Dama)
+            {
+                if (origem.Linha-1 >= 0 && origem.Coluna-1 >= 0)
+                {
+                    if (ValidarDestino(origem.Linha - 1, origem.Coluna - 1, origem))
+                        Tab.MovimentoPossivel[origem.Linha - 1, origem.Coluna - 1] = true;
+                }
+                if (origem.Linha - 1 >= 0 && origem.Coluna +1 < Tab.Colunas)
+                {
+                    if (ValidarDestino(origem.Linha - 1, origem.Coluna + 1, origem))
+                        Tab.MovimentoPossivel[origem.Linha - 1, origem.Coluna + 1] = true;
+                }
+                if (origem.Linha +1 <Tab.Linhas && origem.Coluna -1 >= 0)
+                {
+                    if (ValidarDestino(origem.Linha + 1, origem.Coluna - 1, origem))
+                        Tab.MovimentoPossivel[origem.Linha + 1, origem.Coluna - 1] = true;
+                }
+                if (origem.Linha + 1 < Tab.Linhas && origem.Coluna + 1 < Tab.Colunas)
+                {
+                    if (ValidarDestino(origem.Linha + 1, origem.Coluna + 1, origem))
+                        Tab.MovimentoPossivel[origem.Linha + 1, origem.Coluna + 1] = true;
+                }
+            }
 
             Console.Clear();
             Tab.ImprimirTabuleiro();
             InfoMenu();
         }
 
-       
-
-        public void AdicionarDama(Peca destino,Cor cor)
+        public void VerificarDama()
         {
-            Tab.Casa[destino.Linha, destino.Coluna] = new Dama(destino.Linha, destino.Coluna, cor);
+            //Percorre a primeira linha e a ultima linha da matriz verificando se:
+            for (int i = 0; i < Tab.Colunas; i++)
+            {
+                
+                //Verificando se há peoes pretos na linha 0. Se sim, transformar em Dama
+                if (Tab.Casa[0,i] is Peao && Tab.Casa[0, i].Cor == Cor.Preta) 
+                    Tab.Casa[0, i] = new Dama(0, i, Cor.Preta);
+
+                //Verificando se há peoes brancos na ultima linha . Se sim, transformar em Dama
+                else if (Tab.Casa[Tab.Linhas - 1, i] is Peao && Tab.Casa[Tab.Linhas - 1, i].Cor == Cor.Branca)
+                    Tab.Casa[Tab.Linhas - 1, i] = new Dama(Tab.Linhas - 1, i, Cor.Branca);
+            }
         }
         public void PreencherCemiterio(Peca origem, Peca destino)
         {
@@ -172,7 +213,6 @@ namespace Dama_Console
             {
                 if (origem.Cor == Entities.Enums.Cor.Branca)
                 {
-                    if (destino.Linha == Tab.Linhas-1)
                     CemiterioPretas++;
                 }
                 else
@@ -180,6 +220,7 @@ namespace Dama_Console
             }
 
         }
+
 
     }
 }
