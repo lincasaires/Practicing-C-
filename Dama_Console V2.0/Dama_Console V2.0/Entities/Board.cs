@@ -8,6 +8,7 @@ namespace Dama_Console_V2._0.Entities
     class Board
     {
         public Piece[,] Pieces { get; set; }
+        public bool[,] PossibleMoves { get; set; }
         public int Lines { get; set; }
         public int Columns { get; set; }
 
@@ -30,11 +31,13 @@ namespace Dama_Console_V2._0.Entities
                 {
                     {
                         if (Pieces[i, j] == null)
+                        {
                             Console.Write("- ");
+                        }
                         else if (Pieces[i, j].Color == Enums.Colors.Black)
                             ColorChanger.YellowForegroundColor(Pieces[i, j].ToString());
                         else
-                            Console.Write(Pieces[i,j]);
+                            Console.Write(Pieces[i, j]);
                     }
                 }
                 Console.WriteLine();
@@ -44,30 +47,15 @@ namespace Dama_Console_V2._0.Entities
                 Console.Write(" " + i);
         }
 
-        public  void BoardPawnsStarter()
+        public Piece TakePieceOff(Positions pos)
         {
-            for (int i = 0; i < Lines; i++)
-            {
-                for (int j = 0; j < Columns; j++)
-                {
-                    Positions pos = new Positions(i, j);
+            if (Pieces[pos.Line, pos.Column] == null)
+                return null;
 
-                    if (i % 2 != j % 2)
-                    {
-                        //Starting white pawns
-                        if (i <= 2)
-                        {
-                           Pieces[i, j] = new Pawn(pos, Enums.Colors.White);
-                        }
-
-                        //Starting black pawns
-                        if (i >= (Lines - 3))
-                        {
-                            Pieces[i, j] = new Pawn(pos, Enums.Colors.Black);
-                        }
-                    }
-                }
-            }
+            Piece aux = Pieces[pos.Line, pos.Column];
+            aux.Position = null;
+            Pieces[pos.Line, pos.Column].Position = null;
+            return aux;
         }
     }
 }
