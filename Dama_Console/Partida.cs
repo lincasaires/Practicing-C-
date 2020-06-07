@@ -13,12 +13,12 @@ namespace Dama_Console
         public int CemiterioBrancas { get; private set; }
         public int CemiterioPretas { get; private set; }
         public Tabuleiro Tab { get; private set; }
-        public bool Terminada { get;  set; }
+        public bool Terminada { get;   set; }
 
         public Partida()
         {
-            Turno = 1;
-            Tab = new Tabuleiro(6, 10);
+            Turno = 0;
+            Tab = new Tabuleiro(10, 10);
             CemiterioBrancas = 0;
             CemiterioPretas = 0;
             Terminada = false;
@@ -66,18 +66,20 @@ namespace Dama_Console
                 string s = Console.ReadLine();
                 int linhaDestino = int.Parse(s[0] + "");
                 int colunaDestino = int.Parse(s[1] + "");
+
                 if (ValidarDestino(linhaDestino, colunaDestino, origem))
                 {
+                    Peca destino = Tab.Casa[linhaDestino, colunaDestino];
+                    PreencherCemiterio(origem, destino);
                     Tab.Casa[linha, coluna] = null;
                     origem.Linha = linhaDestino;
                     origem.Coluna = colunaDestino;
                     Tab.Casa[linhaDestino, colunaDestino] = origem;
                     VerificarDama();
                     
-
                     Console.Clear();
                     
-                   // Turno++;
+                    Turno++;
                 }
                 else
                 {
@@ -105,8 +107,7 @@ namespace Dama_Console
         public bool ValidarDestino(int linhaDestino, int colunaDestino, Peca origem)
         {
             Peca destino = Tab.Casa[linhaDestino, colunaDestino];
-            PreencherCemiterio(origem, destino);
-
+            
             //Trecho comum para validação de qualquer tipo de peça
             if (linhaDestino % 2 != origem.Linha % 2 && colunaDestino % 2 != origem.Coluna % 2 && (destino == null || destino.Cor != origem.Cor))
                 if (colunaDestino - 1 == origem.Coluna || colunaDestino + 1 == origem.Coluna)
@@ -140,7 +141,6 @@ namespace Dama_Console
 
         public void MovimentosPossiveis(Peca origem)
         {
-
             if (origem is Peao)
             {
                 if (origem.Cor == Entities.Enums.Cor.Branca && origem.Linha + 1 < Tab.Linhas)
@@ -187,6 +187,7 @@ namespace Dama_Console
             }
 
             Console.Clear();
+            Console.WriteLine();
             Tab.ImprimirTabuleiro();
             InfoMenu();
         }
@@ -195,8 +196,7 @@ namespace Dama_Console
         {
             //Percorre a primeira linha e a ultima linha da matriz verificando se:
             for (int i = 0; i < Tab.Colunas; i++)
-            {
-                
+            {                
                 //Verificando se há peoes pretos na linha 0. Se sim, transformar em Dama
                 if (Tab.Casa[0,i] is Peao && Tab.Casa[0, i].Cor == Cor.Preta) 
                     Tab.Casa[0, i] = new Dama(0, i, Cor.Preta);

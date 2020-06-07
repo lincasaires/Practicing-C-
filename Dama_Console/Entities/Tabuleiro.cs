@@ -57,37 +57,12 @@ namespace Dama_Console.Entities
                     {
                         //Imprimindo peças pretas
                         if (Casa[i, j].Cor == Enums.Cor.Preta)
-                        {
-                            if (MovimentoPossivel[i, j] == false)
-                            {
-                                ConsoleColor aux = Console.ForegroundColor;
-                                Console.ForegroundColor = ConsoleColor.Yellow;
-                                Console.Write(Casa[i, j] + " ");
-                                Console.ForegroundColor = aux;
-                            }
-                            else
-                            {
-                                ConsoleColor auxBack = Console.BackgroundColor;
-                                ConsoleColor auxFore = Console.ForegroundColor;
-                                Console.BackgroundColor = ConsoleColor.Gray;
-                                Console.ForegroundColor = ConsoleColor.Yellow;
-                                Console.Write(Casa[i, j] + " ");
-                                Console.BackgroundColor = auxBack;
-                                Console.ForegroundColor = auxFore;
-                            }
-                        }
+                            ImprimirPecasPretas(i, j);
+
                         //Imprimindo peças brancas
                         else
                         {
-                            if (MovimentoPossivel[i,j] == false)
-                                Console.Write(Casa[i, j] + " ");
-                            else
-                            {
-                                ConsoleColor aux = Console.BackgroundColor;                                
-                                Console.BackgroundColor = ConsoleColor.DarkGray;                                
-                                Console.Write(Casa[i, j] + " ");
-                                Console.BackgroundColor = aux;                               
-                            }
+                            ImprimirPecasBrancas(i, j);
                         }
                     }
                     //Pintando de branco as casas vazias com movimento possivel
@@ -99,24 +74,58 @@ namespace Dama_Console.Entities
                         Console.BackgroundColor = aux;
                         MovimentoPossivel[i, j] = false;
                     }
+                    //Imprimindo casas vazias
                     else
                         Console.Write("- ");
-
-                    
-                    
                 }
                 Console.WriteLine();
-                
             }
 
-            LimparMovimentosPossiveis();
+            LimparMovimentosPossiveis(); //Reiniciando variável "MovimentosPossiveis"
 
             Console.Write("  ");
             for (int i = 0; i < Colunas; i++)
                 Console.Write(i + " ");
             Console.WriteLine();
         }
-        public void LimparMovimentosPossiveis()
+
+        public void ImprimirPecasPretas(int i, int j)
+        {
+
+            if (MovimentoPossivel[i, j] == false)
+            {
+                ConsoleColor aux = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write(Casa[i, j] + " ");
+                Console.ForegroundColor = aux;
+            }
+            else
+            {
+                //Imprimindo peças pretas marcadas como MovimentosPossiveis(que podem ser alvo do oponente)
+                ConsoleColor auxBack = Console.BackgroundColor;
+                ConsoleColor auxFore = Console.ForegroundColor;
+                Console.BackgroundColor = ConsoleColor.Gray;
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write(Casa[i, j] + " ");
+                Console.BackgroundColor = auxBack;
+                Console.ForegroundColor = auxFore;
+            }
+
+        }
+
+        public void ImprimirPecasBrancas(int i, int j)
+        {
+            if (MovimentoPossivel[i, j] == false)
+                Console.Write(Casa[i, j] + " ");
+            else
+            {
+                ConsoleColor aux = Console.BackgroundColor;
+                Console.BackgroundColor = ConsoleColor.DarkGray;
+                Console.Write(Casa[i, j] + " ");
+                Console.BackgroundColor = aux;
+            }
+        }
+        public void LimparMovimentosPossiveis() //Limpa a matriz de movimentos possiveis
         {
             for (int i = 0; i < Linhas; i++)
                 for (int j = 0; j < Colunas; j++)
