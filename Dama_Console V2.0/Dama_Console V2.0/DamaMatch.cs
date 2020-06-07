@@ -19,7 +19,17 @@ namespace Dama_Console_V2._0
         }
 
 
-
+        public bool CheckOrigin(Positions origin)
+        {
+            if (Board.Pieces[origin.Line, origin.Column] == null)
+            {
+                throw new BoardExceptions("No pieces in this position!");
+            }
+            Board.PossibleMoves = Board.Pieces[origin.Line, origin.Column].PossibleMoves();
+            Board.PrintBoard();
+            return true;
+            
+        }
 
         public void MovePiece(Positions origin, Positions destination)
         {
@@ -27,9 +37,12 @@ namespace Dama_Console_V2._0
                 throw new BoardExceptions("No pieces in this position!");
 
             Piece p = Board.TakePieceOff(origin);
-
-
             p.Position = destination;
+            
+            
+
+            Board.Pieces[origin.Line, origin.Column] = null;
+            
             Board.Pieces[destination.Line, destination.Column] = p;
 
 
