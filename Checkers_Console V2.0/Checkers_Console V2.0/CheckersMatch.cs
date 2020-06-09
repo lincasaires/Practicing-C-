@@ -1,23 +1,26 @@
-﻿using Dama_Console_V2._0.Entities;
-using Dama_Console_V2._0.Entities.Enums;
-using Dama_Console_V2._0.Entities.Exceptions;
+﻿using Checkers_Console_V2._0.Entities;
+using Checkers_Console_V2._0.Entities.Enums;
+using Checkers_Console_V2._0.Entities.Exceptions;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace Dama_Console_V2._0
+
+namespace Checkers_Console_V2._0
 {
-    class DamaMatch
+    class CheckersMatch
     {
         public Board Board { get; set; }
         public int Round { get; set; }
         public int WhiteScore { get; set; }
         public int BlackScore { get; set; }
 
-        public DamaMatch()
+        public bool Finished { get; set; }
+
+        public CheckersMatch()
         {
             Board = new Board(10, 10);
             Round = 0;
+            Finished = false;
         }
 
 
@@ -38,8 +41,8 @@ namespace Dama_Console_V2._0
             else if (p.Color == Colors.White && Round % 2 != 1)//Odd Round = White turn
                 throw new BoardExceptions("Wrong piece, it's Black round");
 
-            //PROCEDURES AFTER CHECK
-            Board.PossibleMoves = Board.Pieces[origin.Line, origin.Column].PossibleMoves();
+            //PROCEDURES AFTER CHECK ORIGIN
+            Board.PossibleMoves = p.PossibleMoves();
             Board.PrintBoard();
             return true;
         }
@@ -75,7 +78,6 @@ namespace Dama_Console_V2._0
 
 
             //PROCEDURES AFTER A COMPLETE MOVE
-            Round++;
             p.Ate_a_Piece = false;
             AddKing(p);//Checks if the piece is in the position to become king
             Board.PossibleMoves = new bool[Board.Lines, Board.Columns];
@@ -233,7 +235,7 @@ namespace Dama_Console_V2._0
 
         }
 
-
+        //INITIALIZE PAWNS INTO THE INITIAL BOARD
         public void BoardPawnsStarter()
         {
             for (int i = 0; i < Board.Lines; i++)

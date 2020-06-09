@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Dama_Console_V2._0.Entities.Enums;
+﻿using Checkers_Console_V2._0.Entities.Enums;
 
-namespace Dama_Console_V2._0.Entities
+namespace Checkers_Console_V2._0.Entities
 {
     class King : Piece
     {

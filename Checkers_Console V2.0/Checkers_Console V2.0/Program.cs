@@ -1,18 +1,18 @@
-﻿using Dama_Console_V2._0.Entities;
-using Dama_Console_V2._0.Entities.Exceptions;
+﻿using Checkers_Console_V2._0.Entities;
+using Checkers_Console_V2._0.Entities.Exceptions;
 using System;
 
-namespace Dama_Console_V2._0
+namespace Checkers_Console_V2._0
 {
     class Program
     {
         static void Main(string[] args)
         {
-            DamaMatch match = new DamaMatch();
+            CheckersMatch match = new CheckersMatch();
             match.BoardPawnsStarter();
             match.Board.PrintBoard();
 
-            while (true)
+            while (!match.Finished)
             {
 
                 try
@@ -28,10 +28,24 @@ namespace Dama_Console_V2._0
                     s = Console.ReadLine();
                     Positions destination = new Positions(int.Parse(s[0] + ""), int.Parse(s[1] + ""));
                     match.CheckDestination(destination);
+
                     match.MovePiece(origin, destination);
+                    match.Round++;
+
                     Console.Clear();
                     match.Board.PrintBoard();
-                    Console.WriteLine(match.BlackScore);
+                    Console.WriteLine();
+
+                    if (match.BlackScore >= 15)
+                    {
+                        match.Finished = true;
+                        Console.WriteLine("Game Over. Black Pieces WINS!");
+                    }
+                    else if (match.WhiteScore >= 15)
+                    {
+                        match.Finished = true;
+                        Console.WriteLine("Game Over. White Pieces WINS!");
+                    }
                 }
                 catch (BoardExceptions e)
                 {

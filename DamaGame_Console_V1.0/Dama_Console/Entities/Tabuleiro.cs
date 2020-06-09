@@ -72,7 +72,7 @@ namespace Dama_Console.Entities
                         Console.BackgroundColor = ConsoleColor.Gray;
                         Console.Write("- ");
                         Console.BackgroundColor = aux;
-                        MovimentoPossivel[i, j] = false;
+                        
                     }
                     //Imprimindo casas vazias
                     else
