@@ -9,12 +9,12 @@ namespace Checkers_Console_V2._0
 {
     class CheckersMatch
     {
-        public Board Board { get; set; }
-        public int Round { get; set; }
-        public int WhiteScore { get; set; }
-        public int BlackScore { get; set; }
+        public Board Board { get; private set; }
+        public int Round { get; private set; }
+        public int WhiteScore { get; private set; }
+        public int BlackScore { get; private set; }
 
-        public bool Finished { get; set; }
+        public bool Finished { get; private set; }
 
         public CheckersMatch()
         {
@@ -23,7 +23,59 @@ namespace Checkers_Console_V2._0
             Finished = false;
         }
 
+        public void AddRound()
+        {
+            Round++;
+        }
 
+        public void FinishMatch()
+        {
+            Finished = true;
+        }
+
+        //INITIALIZE PAWNS INTO THE INITIAL BOARD
+        public void BoardPawnsStarter()
+        {
+            for (int i = 0; i < Board.Lines; i++)
+            {
+                for (int j = 0; j < Board.Columns; j++)
+                {
+                    Positions pos = new Positions(i, j);
+
+                    if (i % 2 != j % 2)
+                    {
+                        //Starting white pawns
+                        if (i <= 2)
+                        {
+                            Board.Pieces[i, j] = new Pawn(Board, pos, Colors.White);
+                        }
+
+                        //Starting black pawns
+                        if (i >= (Board.Lines - 3))
+                        {
+                            Board.Pieces[i, j] = new Pawn(Board, pos, Colors.Black);
+                        }
+                    }
+                }
+            }
+        }
+
+        //IF ROUND IS INT PAIR, BLACK PLAYS, ELSE, WHITE PLAYS
+        public void PrintWhoPlaysNow()
+        {
+            Console.WriteLine();
+            Console.Write("Player: ");
+            if (Round % 2 == 0)
+            {
+                Console.WriteLine("Black");
+            }
+            else if (Round % 2 == 1)
+            {
+                Console.WriteLine("White");
+            }
+        }
+
+        //CHECK ORIGIN POSITION
         public bool CheckOrigin(Positions origin)
         {
             Piece p = Board.Pieces[origin.Line, origin.Column];
@@ -47,6 +99,8 @@ namespace Checkers_Console_V2._0
             return true;
         }
 
+        
+        //CHECK DESTINATION POSITION, IF IT'S == POSSIBLE MOVES POSITION, RETURN TRUE
         public bool CheckDestination(Positions destination)
         {
             if (!Board.PossibleMoves[destination.Line, destination.Column])
@@ -64,16 +118,16 @@ namespace Checkers_Console_V2._0
             Piece p = Board.TakePieceOff(origin);//If there's a piece in this position(origin), return the piece from origin to p
 
             
-
             if (p.TargetFound)
             {
-                destination = PieceEater(p, destination);
+                destination = PieceEater(p, destination);//If target was found and eaten, p.Ate_a_Piece = true
             }
             p.Position = destination;
 
             Board.Pieces[destination.Line, destination.Column] = p;
             Board.Pieces[origin.Line, origin.Column] = null;
-            if (p.Ate_a_Piece)
+
+            if (p.Ate_a_Piece)//After ate a piece, check if there's another piece available to eat
                 NewTargetCheck(p);
 
 
@@ -95,7 +149,7 @@ namespace Checkers_Console_V2._0
             }
         }
 
-        //AFTER EAT A PIECE, IF ANOTHER PIECE WAS FOUND, THE PLAYER CAN MOVE AGAIN
+        //AFTER EAT A PIECE, IF ANOTHER VULNERABLE PIECE WAS FOUND, THE PLAYER CAN EAT THIS
         public void NewTargetCheck(Piece p)
         {
             p.Target = new List<Piece>();
@@ -110,21 +164,30 @@ namespace Checkers_Console_V2._0
                     Board.PossibleMoves[t.Position.Line, t.Position.Column] = true;
                 }
 
-                Board.PrintBoard();
-                Console.WriteLine("New target found, choose new destination:");
-                Console.Write("Destination: ");
-                string s = Console.ReadLine();
-                Positions destination = new Positions(int.Parse(s[0] + ""), int.Parse(s[1] + ""));
-                if (NewTargetDestinationCheck(destination))
+                bool repeat = true;
+                while (repeat)
                 {
-                    MovePiece(p.Position, destination);
-                    p.TargetFound = false;
+                    repeat = false;
+                    try
+                    {
+                        Board.PrintBoard();
+                        Console.WriteLine("New target found, choose new destination:");
+                        Console.Write("Destination: ");
+                        string s = Console.ReadLine();
+                        Positions destination = new Positions(int.Parse(s[0] + ""), int.Parse(s[1] + ""));
+                        if (NewTargetDestinationCheck(destination))
+                        {
+                            MovePiece(p.Position, destination);
+                            p.TargetFound = false;
+                        }
+                        else
+                            NewTargetCheck(p);
+                    }
+                    catch (Exception)
+                    {
+                        repeat = true;
+                    }
                 }
-                else
-                    NewTargetCheck(p);
-
-                
-
             }
         }
 
@@ -148,7 +211,6 @@ namespace Checkers_Console_V2._0
         {
             foreach (Piece t in p.Target)
             {
-
 
                 //EAT TARGET FROM RIGHT UP
                 if (t.Position.Line == p.Position.Line - 1 && t.Position.Column == p.Position.Column + 1)
@@ -232,36 +294,6 @@ namespace Checkers_Console_V2._0
             }
 
             return destination;
-
-        }
-
-        //INITIALIZE PAWNS INTO THE INITIAL BOARD
-        public void BoardPawnsStarter()
-        {
-            for (int i = 0; i < Board.Lines; i++)
-            {
-                for (int j = 0; j < Board.Columns; j++)
-                {
-                    Positions pos = new Positions(i, j);
-
-                    if (i % 2 != j % 2)
-                    {
-                        //Starting white pawns
-                        if (i <= 2)
-                        {
-                            Board.Pieces[i, j] = new Pawn(Board, pos, Colors.White);
-                        }
-
-                        //Starting black pawns
-                        if (i >= (Board.Lines - 3))
-                        {
-                            Board.Pieces[i, j] = new Pawn(Board, pos, Colors.Black);
-                        }
-                    }
-                }
-            }
-            Positions test = new Positions(4, 5);
-            Board.Pieces[4, 5] = new King(Board, test, Colors.Black);
         }
     }
 }

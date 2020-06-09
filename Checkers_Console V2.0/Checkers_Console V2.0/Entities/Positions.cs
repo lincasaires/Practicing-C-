@@ -12,6 +12,11 @@ namespace Checkers_Console_V2._0.Entities
             Column = column;
         }
 
+        public static Positions ReadString_ReturnPosition(string s)
+        {
+            return new Positions(int.Parse(s[0] + ""), int.Parse(s[1] + ""));
+        }
+
         public override string ToString()
         {
             return Line + ", " + Column;

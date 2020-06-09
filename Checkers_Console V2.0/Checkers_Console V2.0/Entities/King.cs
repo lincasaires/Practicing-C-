@@ -2,7 +2,7 @@
 
 namespace Checkers_Console_V2._0.Entities
 {
-    class King : Piece
+    sealed class King : Piece
     {
         public King(Board board, Positions position, Colors color) : base(board, position, color) { }
 

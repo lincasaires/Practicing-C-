@@ -8,23 +8,23 @@ namespace Checkers_Console_V2._0.Entities.Scripts
         public static void WhiteBackground(string s)
         {
             ConsoleColor aux = Console.BackgroundColor;
-            Console.BackgroundColor = ConsoleColor.White;
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
             Console.Write(s);
             Console.BackgroundColor = aux;
         }
 
-        public static void GrayBackground(string s)
+        public static void Background(string s)
         {
             ConsoleColor aux = Console.BackgroundColor;
-            Console.BackgroundColor = ConsoleColor.DarkGray;
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
             Console.Write(s);
             Console.BackgroundColor = aux;
         }
 
-        public static void YellowForegroundColor(string s)
+        public static void ForegroundColor(string s)
         {
             ConsoleColor aux = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.ForegroundColor = ConsoleColor.Black;
             Console.Write(s);
             Console.ForegroundColor = aux;
         }
@@ -33,8 +33,29 @@ namespace Checkers_Console_V2._0.Entities.Scripts
         {
             ConsoleColor auxFore = Console.ForegroundColor;
             ConsoleColor auxBack = Console.BackgroundColor;
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.BackgroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            Console.Write(s);
+            Console.ForegroundColor = auxFore;
+            Console.BackgroundColor = auxBack;
+        }
+
+        public static void BoardBackground(string s)
+        {
+            ConsoleColor aux = Console.BackgroundColor;
+            Console.BackgroundColor = ConsoleColor.DarkGray;
+            
+            Console.Write(s);
+            Console.BackgroundColor = aux;
+        }
+
+        public static void BoardBackgroundAndForegroundColor(string s)
+        {
+            ConsoleColor auxFore = Console.ForegroundColor;
+            ConsoleColor auxBack = Console.BackgroundColor;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.BackgroundColor = ConsoleColor.DarkGray;
+            
             Console.Write(s);
             Console.ForegroundColor = auxFore;
             Console.BackgroundColor = auxBack;

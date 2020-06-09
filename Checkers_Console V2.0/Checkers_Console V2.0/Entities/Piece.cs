@@ -5,10 +5,10 @@ namespace Checkers_Console_V2._0.Entities
 {
     abstract class Piece
     {
-        public Colors Color { get; set; }
+        public Colors Color { get; protected set; }
         public Positions Position { get; set; }
-        public Board Board { get; set; }
-        public bool TargetFound { get; set; }
+        public Board Board { get; protected set; }
+        public bool TargetFound { get;  set; }
         public List<Piece> Target { get; set; }
         public bool Ate_a_Piece { get; set; }
         public Piece(Board board,Positions position, Colors color)

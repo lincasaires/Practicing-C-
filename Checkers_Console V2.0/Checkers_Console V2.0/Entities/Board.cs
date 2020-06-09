@@ -35,20 +35,26 @@ namespace Checkers_Console_V2._0.Entities
                         {
                             if (PossibleMoves[i, j])
                             {
-                                ColorChanger.WhiteBackground("- ");
+                                ColorChanger.WhiteBackground("  ");
                             }
+                            else if (i % 2 != j % 2)
+                                ColorChanger.BoardBackground("  ");
                             else
-                                Console.Write("- ");
+                                Console.Write("  ");
                         }
                         else if (Pieces[i, j].Color == Enums.Colors.Black)
                         {
                             if (PossibleMoves[i, j])
                                 ColorChanger.BackgroundAndForegroundColor(Pieces[i, j].ToString());
+                            else if (i % 2 != j % 2)
+                                ColorChanger.BoardBackgroundAndForegroundColor(Pieces[i, j].ToString());
                             else
-                                ColorChanger.YellowForegroundColor(Pieces[i, j].ToString());
+                                ColorChanger.ForegroundColor(Pieces[i, j].ToString());
                         }
                         else if (PossibleMoves[i, j])
-                            ColorChanger.GrayBackground(Pieces[i, j].ToString());
+                            ColorChanger.Background(Pieces[i, j].ToString());
+                        else if (i%2 != j%2)
+                            ColorChanger.BoardBackground(Pieces[i, j].ToString());
                         else
                             Console.Write(Pieces[i, j]);
                     }
@@ -59,6 +65,12 @@ namespace Checkers_Console_V2._0.Entities
             for (int i = 0; i < Columns; i++)
                 Console.Write(" " + i);
             Console.WriteLine();
+        }
+
+        public void RestartBoard()
+        {
+            PossibleMoves = new bool[Lines, Columns];
+            PrintBoard();
         }
 
         public Piece TakePieceOff(Positions pos)

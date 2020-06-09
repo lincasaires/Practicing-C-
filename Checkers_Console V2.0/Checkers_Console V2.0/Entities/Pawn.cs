@@ -2,7 +2,7 @@
 
 namespace Checkers_Console_V2._0.Entities
 {
-    class Pawn:Piece
+    sealed class Pawn:Piece
     {
         public Pawn(Board board,Positions position, Colors color) : base(board,position, color) { }
         
