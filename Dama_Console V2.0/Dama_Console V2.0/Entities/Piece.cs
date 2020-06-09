@@ -11,11 +11,17 @@ namespace Dama_Console_V2._0.Entities
         public Colors Color { get; set; }
         public Positions Position { get; set; }
         public Board Board { get; set; }
+        public bool TargetFound { get; set; }
+        public List<Piece> Target { get; set; }
+        public bool Ate_a_Piece { get; set; }
         public Piece(Board board,Positions position, Colors color)
         {
             Position = position;
             Color = color;
             Board = board;
+            TargetFound = false;
+            Target = new List<Piece>();
+            Ate_a_Piece = false;
         }
 
         public Piece(Colors color, Positions position)

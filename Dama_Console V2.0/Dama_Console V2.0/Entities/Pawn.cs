@@ -22,8 +22,11 @@ namespace Dama_Console_V2._0.Entities
             {
                 //Right Up Diagonal
                 if (i - 1 >= 0 && j + 1 < Board.Columns && (Board.Pieces[i - 1, j + 1] == null || Board.Pieces[i - 1, j + 1].Color != Color))
-                    if (Board.Pieces[i - 1, j + 1] != null && Board.Pieces[i - 2, j + 2] == null && i - 2 >= 0 && j + 2 < Board.Columns)
+                    if (i - 2 >= 0 && j + 2 < Board.Columns && Board.Pieces[i - 1, j + 1] != null && Board.Pieces[i - 2, j + 2] == null )
                     {
+                        TargetFound = true;
+                        Target.Add(Board.Pieces[i - 1, j + 1]);
+                        mat[i - 1, j + 1] = true;
                         mat[i - 2, j + 2] = true;
                     }
                     else if (Board.Pieces[i - 1, j + 1] == null)
@@ -31,8 +34,11 @@ namespace Dama_Console_V2._0.Entities
 
                 //Left Up Diagonal
                 if (i - 1 >= 0 && j - 1 >= 0 && (Board.Pieces[i - 1, j - 1] == null || Board.Pieces[i - 1, j - 1].Color != Color))
-                    if (Board.Pieces[i - 1, j - 1] != null && Board.Pieces[i - 2, j - 2] == null && i - 2 >= 0 && j - 2 >= 0)
+                    if (i - 2 >= 0 && j - 2 >= 0 && Board.Pieces[i - 1, j - 1] != null && Board.Pieces[i - 2, j - 2] == null )
                     {
+                        TargetFound = true;
+                        Target.Add(Board.Pieces[i - 1, j - 1]);
+                        mat[i - 1, j - 1] = true;
                         mat[i - 2, j - 2] = true;
                     }
                     else if (Board.Pieces[i - 1, j - 1] == null)
@@ -44,8 +50,11 @@ namespace Dama_Console_V2._0.Entities
             {
                 //Right Down Diagonal
                 if (i + 1 < Board.Lines && j + 1 < Board.Columns && (Board.Pieces[i + 1, j + 1] == null || Board.Pieces[i + 1, j + 1].Color != Color))
-                    if (Board.Pieces[i + 1, j + 1] != null && Board.Pieces[i + 2, j + 2] == null && i + 2 < Board.Lines && j + 2 < Board.Columns)
+                    if (i + 2 < Board.Lines && j + 2 < Board.Columns && Board.Pieces[i + 1, j + 1] != null && Board.Pieces[i + 2, j + 2] == null )
                     {
+                        TargetFound = true;
+                        Target.Add(Board.Pieces[i + 1, j + 1]);
+                        mat[i + 1, j + 1] = true;
                         mat[i + 2, j + 2] = true;
                     }
                     else if (Board.Pieces[i + 1, j + 1] == null)
@@ -53,13 +62,15 @@ namespace Dama_Console_V2._0.Entities
 
                 //Left Down Diagonal i+1 j-1
                 if (i + 1 < Board.Lines && j - 1 >= 0 && (Board.Pieces[i + 1, j - 1] == null || Board.Pieces[i + 1, j - 1].Color != Color))
-                    if (Board.Pieces[i + 1, j - 1] != null && Board.Pieces[i + 2, j - 2] == null && i + 2 < Board.Lines && j - 2 >= 0)
+                    if (i + 2 < Board.Lines && j - 2 >= 0 && Board.Pieces[i + 1, j - 1] != null && Board.Pieces[i + 2, j - 2] == null)
                     {
+                        TargetFound = true;
+                        Target.Add(Board.Pieces[i + 1, j - 1]);
+                        mat[i + 1, j - 1] = true;
                         mat[i + 2, j - 2] = true;
                     }
                     else if (Board.Pieces[i + 1, j - 1] == null)
                         mat[i + 1, j - 1] = true;
-
             }
 
 

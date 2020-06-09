@@ -52,7 +52,6 @@ namespace Dama_Console_V2._0.Entities
                             ColorChanger.GrayBackground(Pieces[i, j].ToString());
                         else
                             Console.Write(Pieces[i, j]);
-
                     }
                 }
                 Console.WriteLine();
@@ -60,6 +59,7 @@ namespace Dama_Console_V2._0.Entities
             Console.Write("  ");
             for (int i = 0; i < Columns; i++)
                 Console.Write(" " + i);
+            Console.WriteLine();
         }
 
         public Piece TakePieceOff(Positions pos)

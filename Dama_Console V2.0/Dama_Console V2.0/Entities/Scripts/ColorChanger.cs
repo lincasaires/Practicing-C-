@@ -18,7 +18,7 @@ namespace Dama_Console_V2._0.Entities.Scripts
         public static void GrayBackground(string s)
         {
             ConsoleColor aux = Console.BackgroundColor;
-            Console.BackgroundColor = ConsoleColor.Gray;
+            Console.BackgroundColor = ConsoleColor.DarkGray;
             Console.Write(s);
             Console.BackgroundColor = aux;
         }
